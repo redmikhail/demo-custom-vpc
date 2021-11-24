@@ -135,6 +135,10 @@ resource "aws_subnet" "us-east-2a-private" {
         Name = "Private Subnet"
         Project = "${var.PROJECT_NAME}"
     }
+    # This is very important - prevents deleting openshift tags added to subnet on terraform update 
+    lifecycle {
+        ignore_changes = [tags]
+    }
 }
 
 resource "aws_route_table" "us-east-2a-private" {

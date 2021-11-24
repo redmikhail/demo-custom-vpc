@@ -13,9 +13,15 @@ resource "aws_security_group" "standalone_vms" {
     from_port        = 0
     to_port          = 0
     protocol         = -1
-    cidr_blocks      = ["${var.vpc_cidr}"]
+    cidr_blocks      = ["${var.private_subnet_cidr}"]
   }
-
+  ingress {
+    description      = "ssh from bastion server"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    security_groups = [data.aws_security_group.selected.id]
+  }
   egress {
     from_port        = 0
     to_port          = 0
